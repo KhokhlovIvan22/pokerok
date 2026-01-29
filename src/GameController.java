@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -91,7 +90,7 @@ public class GameController {
         uiLayer.getChildren().add(potLabel);
 
         combinationHintLabel = new Label("");
-        combinationHintLabel.setStyle("-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold; -fx-font-style: italic;");
+        combinationHintLabel.setStyle("-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold; -fx-font-style: italic;");
         VBox comboBox = new VBox(combinationHintLabel);
         comboBox.setAlignment(Pos.CENTER);
         comboBox.setPrefWidth(1280);
@@ -103,15 +102,15 @@ public class GameController {
         root.getChildren().addAll(tableLayer, playersLayer, uiLayer);
 
         winnerNameLabel = new Label("");
-        winnerNameLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 38; -fx-font-weight: bold;");
+        winnerNameLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 29; -fx-font-style: bold;");
 
         winnerComboLabel = new Label("");
-        winnerComboLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 38; -fx-font-style: italic;");
+        winnerComboLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 29; -fx-font-style: bold;");
 
         winnerContainer = new VBox(5, winnerNameLabel, winnerComboLabel);
         winnerContainer.setAlignment(Pos.CENTER);
         winnerContainer.setPrefWidth(1280);
-        winnerContainer.setLayoutY(160);
+        winnerContainer.setLayoutY(204);
         winnerContainer.setVisible(false);
 
         uiLayer.getChildren().add(winnerContainer);
@@ -132,14 +131,12 @@ public class GameController {
         raiseSlider.valueProperty().addListener((obs, oldVal, newVal) ->
                 raiseValueLabel.setText("$" + newVal.intValue()));
 
-        // Выравнивание элементов внутри горизонтальных боксов по левому краю
         HBox buttonsBox = new HBox(20, btnFold, btnCall, btnRaise);
         buttonsBox.setAlignment(Pos.CENTER_LEFT);
 
         HBox sliderBox = new HBox(15, raiseSlider, raiseValueLabel);
         sliderBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Основной контейнер теперь не имеет жесткой ширины 1280
         controlsContainer = new VBox(15, sliderBox, buttonsBox);
         controlsContainer.setAlignment(Pos.CENTER_LEFT);
 
@@ -211,7 +208,7 @@ public class GameController {
             }
 
             int myIndex = -1;
-            for (int i = 0; i < state.players.size(); i++) {
+            for (int i = 0; i < state.players.size(); ++i) {
                 if (state.players.get(i).name.equalsIgnoreCase(this.playerName)) {
                     myIndex = i;
                     break;
