@@ -38,7 +38,6 @@ public class GameServer {
                     p.isFolded = sp.isFolded();
                     p.isAllIn = sp.isAllIn();
                     p.isWaitingForNextHand = sp.isWaitingForNextHand();
-
                     if (dto.isShowdown || sp.getName().equals(recipientName)) {
                         p.holeCards = new ArrayList<>(sp.getCards());
                         p.handResult = sp.getCurrentResult();

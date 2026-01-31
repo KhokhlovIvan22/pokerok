@@ -49,12 +49,14 @@ public class Table {
                 .filter(p -> !p.isFolded() && !p.isAllIn() && !p.isWaitingForNextHand())
                 .count();
 
-        if (canAct <= 1 && allBetsEqual()) return;
+        if (canAct <= 1 && allBetsEqual())
+            return;
 
         int startIdx = currentPlayerIndex;
         do {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-            if (currentPlayerIndex == startIdx) break;
+            if (currentPlayerIndex == startIdx)
+                break;
         } while (players.get(currentPlayerIndex).isFolded() ||
                 players.get(currentPlayerIndex).isAllIn() ||
                 players.get(currentPlayerIndex).isWaitingForNextHand());
@@ -193,16 +195,27 @@ public class Table {
         currentMaxBet = 0;
         actionsInRound = 0;
 
-        if (communityCards.size() < 5) {
-            int cardsToDeal = communityCards.isEmpty() ? 3 : 1;
-            for (int i = 0; i < cardsToDeal; ++i)
+        long activePlayers = players.stream()
+                .filter(p -> !p.isFolded() && !p.isWaitingForNextHand() && !p.isAllIn())
+                .count();
+        if (activePlayers < 2) {
+            while (communityCards.size() < 5) {
                 communityCards.add(deck.dealCard());
-
-            currentPlayerIndex = dealerIndex;
-            moveToNextActivePlayer();
-            aggressorIndex = currentPlayerIndex;
-        } else {
+            }
             showdown();
+        }
+        else {
+            if (communityCards.size() < 5) {
+                int cardsToDeal = communityCards.isEmpty() ? 3 : 1;
+                for (int i = 0; i < cardsToDeal; ++i)
+                    communityCards.add(deck.dealCard());
+
+                currentPlayerIndex = dealerIndex;
+                moveToNextActivePlayer();
+                aggressorIndex = currentPlayerIndex;
+            } else {
+                showdown();
+            }
         }
     }
 
